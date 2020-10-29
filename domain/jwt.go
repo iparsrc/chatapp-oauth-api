@@ -13,6 +13,14 @@ type AccessToken interface {
 	Create(userID string) (string, error)
 }
 
+func getSecretKey() string {
+	secret := os.Getenv("ACCESS_SECRET")
+	if secret == "" {
+		secret = "SECRET_KEY"
+	}
+	return secret
+}
+
 type accessToken struct{}
 
 func (t *accessToken) Create(userID string) (string, *utils.RestErr) {
@@ -27,7 +35,7 @@ func (t *accessToken) Create(userID string) (string, *utils.RestErr) {
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)
 
 	// 3. Create and get token in string.
-	token, err := at.SignedString([]byte(os.Getenv("ACCESS_SECRET")))
+	token, err := at.SignedString([]byte(getSecretKey()))
 	if err != nil {
 		return "", utils.InternalServerErr("error: can't create access token")
 	}
