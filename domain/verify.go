@@ -61,23 +61,23 @@ func checkWhiteList(uuid string) error {
 // Verify function returns user_id if the token is valid,
 // else it will return an empty string with an error. Also it
 // will return empty string & error if an operation goes wrong.
-func Verify(tokenStr string) (string, error) {
+func Verify(tokenStr string) (userID, uuid string, e error) {
 	// 1. Parse the token, and get claims.
 	exp, userID, uuid, err := parseToken(tokenStr)
 	if err != nil {
-		return "", err
+		return "", "", err
 	}
 
 	// 2. Check the expiration date.
 	if err := checkExpirationDate(exp); err != nil {
-		return "", err
+		return "", "", err
 	}
 
 	// 3. Check the while list (redis).
 	if err := checkWhiteList(uuid); err != nil {
-		return "", err
+		return "", "", err
 	}
 
 	// 4. Return values.
-	return userID, nil
+	return userID, uuid, nil
 }
