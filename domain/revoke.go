@@ -17,17 +17,29 @@ func deleteRefreshToken(refreshTokenUUID string) error {
 // Revoke function deletes the specified access & refresh tokens,
 // if they exist. It will return nil as error if they didn't exist,
 // but if the operation had problem it will return an error.
-func Revoke(accessTokenUUID, refreshTokenUUID string) error {
-	// 1. Remove access token from the redis database.
+func Revoke(accessToken, refreshToken string) error {
+	// 1. Parse access token.
+	_, _, accessTokenUUID, err := parseToken(accessToken)
+	if err != nil {
+		return err
+	}
+
+	// 2. Remove access token from the redis database.
 	if err := deleteAccessToken(accessTokenUUID); err != nil {
 		return err
 	}
 
-	// 2. Remove refresh token from the redis database.
+	// 3. Parse refresh token.
+	_, _, refreshTokenUUID, err := parseToken(refreshToken)
+	if err != nil {
+		return err
+	}
+
+	// 4. Remove refresh token from the redis database.
 	if err := deleteRefreshToken(refreshTokenUUID); err != nil {
 		return err
 	}
 
-	// 3. Return values.
+	// 5. Return values.
 	return nil
 }
