@@ -94,7 +94,7 @@ func verify(c *gin.Context) {
 	}
 
 	// 2. Verify the access token.
-	userID, _, err := s.Verify(accessToken)
+	_, _, err = s.Verify(accessToken)
 	if err == domain.ErrParseToken {
 		restErr := &utils.RestErr{
 			Message: "can't operate verification.",
@@ -105,12 +105,12 @@ func verify(c *gin.Context) {
 		return
 	}
 	if err == domain.ErrInvalidToken {
-		c.JSON(http.StatusOK, gin.H{})
+		c.JSON(http.StatusOK, gin.H{"is_valid": false})
 		return
 	}
 
 	// 3. Return the results.
-	c.JSON(http.StatusOK, gin.H{"user_id": userID})
+	c.JSON(http.StatusOK, gin.H{"is_valid": true})
 	return
 }
 
