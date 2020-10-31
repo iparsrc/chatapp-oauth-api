@@ -35,12 +35,12 @@ func Verify(tokenStr string) (userID, uuid string, e error) {
 
 	// 2. Check the expiration date.
 	if err := checkExpirationDate(exp); err != nil {
-		return "", "", err
+		return "", "", ErrInvalidToken
 	}
 
 	// 3. Check the while list (redis).
 	if err := checkWhiteList(uuid); err != nil {
-		return "", "", err
+		return "", "", ErrInvalidToken
 	}
 
 	// 4. Return values.
