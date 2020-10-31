@@ -18,23 +18,23 @@ func keyFunc(token *jwt.Token) (interface{}, error) {
 func parseToken(tokenStr string) (int64, string, string, error) {
 	token, err := jwt.Parse(tokenStr, keyFunc)
 	if err != nil {
-		return 0, "", "", err
+		return 0, "", "", ErrParseToken
 	}
 	claims, ok := token.Claims.(jwt.MapClaims)
 	if !ok {
-		return 0, "", "", errors.New("error: can't parse claims")
+		return 0, "", "", ErrParseToken
 	}
 	exp, ok := claims["exp"].(int64)
 	if !ok {
-		return 0, "", "", errors.New("error: can't parse exp")
+		return 0, "", "", ErrParseToken
 	}
 	userID, ok := claims["user_id"].(string)
 	if !ok {
-		return 0, "", "", errors.New("error: can't parse uesr_id")
+		return 0, "", "", ErrParseToken
 	}
 	uuid, ok := claims["uuid"].(string)
 	if !ok {
-		return 0, "", "", errors.New("error: can't parse uuid")
+		return 0, "", "", ErrParseToken
 	}
 	return exp, userID, uuid, nil
 }
