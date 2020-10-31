@@ -26,7 +26,7 @@ func Revoke(accessToken, refreshToken string) error {
 
 	// 2. Remove access token from the redis database.
 	if err := deleteAccessToken(accessTokenUUID); err != nil {
-		return err
+		return ErrRevokeTokens
 	}
 
 	// 3. Parse refresh token.
@@ -37,7 +37,7 @@ func Revoke(accessToken, refreshToken string) error {
 
 	// 4. Remove refresh token from the redis database.
 	if err := deleteRefreshToken(refreshTokenUUID); err != nil {
-		return err
+		return ErrRevokeTokens
 	}
 
 	// 5. Return values.
