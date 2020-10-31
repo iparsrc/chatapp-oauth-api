@@ -73,17 +73,17 @@ func Create(userID string) (accessToken, refreshToken string, e error) {
 
 	// 2. Create access token.
 	if err := createAccessToken(userID, td); err != nil {
-		return "", "", err
+		return "", "", ErrCreateToken
 	}
 
 	// 3. Create refresh token.
 	if err := createRefreshToken(userID, td); err != nil {
-		return "", "", err
+		return "", "", ErrCreateToken
 	}
 
 	// 4. Save access and refresh tokens in the redis database.
 	if err := saveAccessAndRefreshTokens(userID, td); err != nil {
-		return "", "", err
+		return "", "", ErrSaveToken
 	}
 
 	// 5. Return values.
