@@ -24,7 +24,7 @@ func parseToken(tokenStr string) (int64, string, string, error) {
 	if !ok {
 		return 0, "", "", ErrParseToken
 	}
-	exp, ok := claims["exp"].(int64)
+	exp, ok := claims["exp"].(float64)
 	if !ok {
 		return 0, "", "", ErrParseToken
 	}
@@ -36,5 +36,5 @@ func parseToken(tokenStr string) (int64, string, string, error) {
 	if !ok {
 		return 0, "", "", ErrParseToken
 	}
-	return exp, userID, uuid, nil
+	return int64(exp), userID, uuid, nil
 }
