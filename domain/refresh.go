@@ -18,7 +18,7 @@ func Refresh(refreshToken string) (newAccessToken, newRefreshToken string, e err
 
 	// 2. Delete the previous refresh token from the redis.
 	if err := deletePreviousRefreshToken(uuid); err != nil {
-		return "", "", err
+		return "", "", ErrRefreshTokens
 	}
 
 	// 3. Create new tokens.
