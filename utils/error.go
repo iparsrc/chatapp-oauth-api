@@ -10,7 +10,7 @@ func BadRequest(message string) *RestErr {
 	return &RestErr{
 		Message: message,
 		Status:  400,
-		Error:   "bad request",
+		Error:   "error: bad request",
 	}
 }
 
@@ -18,7 +18,7 @@ func NotFound(message string) *RestErr {
 	return &RestErr{
 		Message: message,
 		Status:  404,
-		Error:   "not found",
+		Error:   "error: not found",
 	}
 }
 
@@ -26,6 +26,6 @@ func InternalServerErr(message string) *RestErr {
 	return &RestErr{
 		Message: message,
 		Status:  500,
-		Error:   "internal server error",
+		Error:   "error: internal server error",
 	}
 }
